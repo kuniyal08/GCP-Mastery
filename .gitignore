@@ -1,0 +1,13 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+*.key
+*.pem
+service-account*.json
+.env
+__pycache__/
+*.pyc
+.DS_Store
