@@ -1,27 +1,41 @@
 # Terraform VPC and Firewall Lab
 
-This lab uses Terraform to create a custom VPC and firewall rules allowing ICMP, HTTP on port 80, TCP port 8080, and TCP ports 1000–2000. Review the rule source ranges in `main.tf` before applying; broad Internet ranges are suitable only for a disposable lab.
+This lab uses Terraform to create a custom VPC, a subnet, and firewall rules allowing ICMP, HTTP on port 80, TCP port 8080, and TCP ports 1000-2000. The example ingress rule uses `0.0.0.0/0` for a disposable learning environment; do not copy that source range into production without a specific requirement.
 
 ## Files
 
 ```text
 README.md
+main.tf
 deploy.sh
-Python Script (Automation + Validation).py
+terraform_deploy.py
 lab_screenshot/
 ```
 
 ## Deploy
 
+You can run Terraform directly:
+
 ```bash
 export GOOGLE_CLOUD_PROJECT=your-project-id
 gcloud config set project "$GOOGLE_CLOUD_PROJECT"
 terraform init
+terraform fmt -check
+terraform validate
 terraform plan
 terraform apply
 ```
 
-Use a plan review rather than blindly accepting changes. Terraform state may contain resource details; it is ignored locally and must not be committed.
+Or use one of the helper scripts:
+
+```bash
+./deploy.sh
+python3 terraform_deploy.py
+```
+
+Both helpers validate and show the Terraform plan before applying it. They require interactive confirmation by default. Use `--auto-approve` only when non-interactive execution is intentional.
+
+Review every plan before applying it. Terraform state can contain resource details; local state files are ignored and must not be committed.
 
 ![Clone](lab_screenshot/01-clone-repo-cloudshell.png.png)
 ![Configuration](lab_screenshot/02-terraform-config-main-tf.png.png)
